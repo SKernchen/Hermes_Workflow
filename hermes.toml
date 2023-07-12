@@ -1,0 +1,22 @@
+[harvest]
+from = [ "cff", "git",]
+
+[deposit]
+mapping = "invenio"
+target = "invenio"
+
+[postprocess]
+execute = [ "config_record_id",]
+
+[harvest.cff]
+validate = false
+
+[deposit.invenio]
+site_url = "https://sandbox.zenodo.org"
+communities = [ "zenodo",]
+access_right = "open"
+
+[deposit.invenio.api_paths]
+depositions = "api/deposit/depositions"
+licenses = "api/licenses"
+communities = "api/communities"
