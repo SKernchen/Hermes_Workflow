@@ -147,7 +147,8 @@ def curate(click_ctx: click.Context):
     os.makedirs(ctx.hermes_dir / 'curate_with_me', exist_ok=True)
     shutil.copy(process_output, ctx.hermes_dir / 'curate' / (ctx.hermes_name + '.md'))
     shutil.copy(process_output, ctx.hermes_dir / 'curate' / (ctx.hermes_name + '.json'))
-    shutil.copy(process_output, ctx.hermes_dir / 'curate' / (ctx.hermes_name + '.md'))
+
+    shutil.copy(json_to_md(process_output), ctx.hermes_dir / 'curate_with_me' / (ctx.hermes_name + '.md'))
 
 
 @click.group(invoke_without_command=True)
@@ -278,3 +279,9 @@ def clean():
     # Create Hermes context (i.e., all collected metadata for all stages...)
     ctx = HermesContext()
     ctx.purge_caches()
+
+@click.group(invoke_without_command=False)
+def json_to_md(file):
+    text = file.replace("{","").replace("}","\n")
+    return text
+
