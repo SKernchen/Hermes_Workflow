@@ -148,7 +148,7 @@ def curate(click_ctx: click.Context):
     shutil.copy(process_output, ctx.hermes_dir / 'curate' / (ctx.hermes_name + '.md'))
     shutil.copy(process_output, ctx.hermes_dir / 'curate' / (ctx.hermes_name + '.json'))
 
-    shutil.copy(json_to_md(ctx.hermes_name + '.json'), ctx.hermes_dir / 'curate_with_me' / (ctx.hermes_name + '.md'))
+    #shutil.copy(json_to_md(ctx.hermes_name + '.json'), ctx.hermes_dir / 'curate_with_me' / (ctx.hermes_name + '.md'))
 
 
 @click.group(invoke_without_command=True)
