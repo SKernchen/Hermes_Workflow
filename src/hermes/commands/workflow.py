@@ -148,7 +148,7 @@ def curate(click_ctx: click.Context):
     os.makedirs(ctx.hermes_dir / 'curate_with_me', exist_ok=True)
     shutil.copy(process_output, ctx.hermes_dir / 'curate_with_me' / (ctx.hermes_name + '.md'))
     shutil.copy(process_output, ctx.hermes_dir / 'curate' / (ctx.hermes_name + '.json'))
-    process_output_md = json_to_md(process_output)
+    process_output_md = json_to_md(process_output.name)
     shutil.copy(process_output_md, ctx.hermes_dir / 'curate' / (ctx.hermes_name + '.md'))
 
     #shutil.copy(json_to_md(process_output), ctx.hermes_dir / 'curate_with_me' / (ctx.hermes_name + '.md'))
