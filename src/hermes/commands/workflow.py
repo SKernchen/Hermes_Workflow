@@ -148,33 +148,10 @@ def curate(click_ctx: click.Context):
     os.makedirs(ctx.hermes_dir / 'curate_with_me', exist_ok=True)
     shutil.copy(process_output, ctx.hermes_dir / 'curate_with_me' / (ctx.hermes_name + '.md'))
     shutil.copy(process_output, ctx.hermes_dir / 'curate' / (ctx.hermes_name + '.json'))
-    #process_output_md = json_to_md(process_output.name)
-    with open(process_output, 'r') as file:
-        data = file.read()
-        file.close()
 
-    in_loop = 0
-    lines = data.split("\n")
-    new_lines = []
-    new_lines.append("# HERMES Curation\n")
-    new_lines.append("`pls check if the gathered metadata is correct`\n")
-    for line in lines:
-        line = line.replace("{", "").replace("}", "\n").replace(",", "")
-        line = re.sub('"(@?\w*:?\w*)":', "- \g<1>:  ", line) if in_loop else re.sub('"(@?\w*:?\w*)":', "### \g<1> \n", line)
-        if re.search(r'\[', line) is not None:
-            line = line.replace("[", "")
-            in_loop += 1
-        if re.search(r'\]', line) is not None:
-            line = line.replace("]", "")
-            in_loop -= 1
-        new_lines.append(line + "\n")
-    text = ''.join(new_lines)
+    text_md = json_to_md(process_output)
     with open(ctx.hermes_dir / 'curate' / (ctx.hermes_name + '.md'), "w") as new_file:
-        new_file.write(text)
-
-    #shutil.copy(new_file.name, ctx.hermes_dir / 'curate' / (ctx.hermes_name + '.md'))
-
-    #shutil.copy(json_to_md(process_output), ctx.hermes_dir / 'curate_with_me' / (ctx.hermes_name + '.md'))
+        new_file.write(text_md)
 
 
 @click.group(invoke_without_command=True)
@@ -306,8 +283,11 @@ def clean():
     ctx = HermesContext()
     ctx.purge_caches()
 
-@click.group(invoke_without_command=False)
+
 def json_to_md(file):
+    if not file.is_file():
+        click.echo(file + " is not a file")
+        return
     with open(file, 'r') as file:
         data = file.read()
         file.close()
@@ -315,9 +295,12 @@ def json_to_md(file):
     in_loop = 0
     lines = data.split("\n")
     new_lines = []
+    new_lines.append("# HERMES Curation\n")
+    new_lines.append("`pls check if the gathered metadata is correct`\n")
     for line in lines:
         line = line.replace("{", "").replace("}", "\n").replace(",", "")
-        line = re.sub('"(@?\w*:?\w*)":', "- \g<1>:  ", line) if in_loop else re.sub('"(@?\w*:?\w*)":', "### \g<1> \n", line)
+        line = re.sub('"(@?\w*:?\w*)":', "- \g<1>:  ", line) if in_loop else re.sub('"(@?\w*:?\w*)":', "### \g<1> \n",
+                                                                                    line)
         if re.search(r'\[', line) is not None:
             line = line.replace("[", "")
             in_loop += 1
@@ -326,7 +309,5 @@ def json_to_md(file):
             in_loop -= 1
         new_lines.append(line + "\n")
     text = ''.join(new_lines)
-    with open("process_output_md", "w") as new_file:
-        new_file.write(text)
-    return new_file
+    return text
 
