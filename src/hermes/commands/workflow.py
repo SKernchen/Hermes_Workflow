@@ -149,13 +149,15 @@ def curate(click_ctx: click.Context):
     shutil.copy(process_output, ctx.hermes_dir / 'curate_with_me' / (ctx.hermes_name + '.md'))
     shutil.copy(process_output, ctx.hermes_dir / 'curate' / (ctx.hermes_name + '.json'))
     #process_output_md = json_to_md(process_output.name)
-    with open(ctx.hermes_dir / 'process' / (ctx.hermes_name + ".json"), 'r') as file:
+    with open(process_output.name, 'r') as file:
         data = file.read()
         file.close()
 
     in_loop = 0
     lines = data.split("\n")
     new_lines = []
+    new_lines.append("# HERMES Curation\n")
+    new_lines.append("`pls check if the gathered metadata is correct`\n")
     for line in lines:
         line = line.replace("{", "").replace("}", "\n").replace(",", "")
         line = re.sub('"(@?\w*:?\w*)":', "- \g<1>:  ", line) if in_loop else re.sub('"(@?\w*:?\w*)":', "### \g<1> \n", line)
