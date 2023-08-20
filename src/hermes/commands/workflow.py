@@ -149,7 +149,7 @@ def curate(click_ctx: click.Context):
     shutil.copy(process_output, ctx.hermes_dir / 'curate_with_me' / (ctx.hermes_name + '.md'))
     shutil.copy(process_output, ctx.hermes_dir / 'curate' / (ctx.hermes_name + '.json'))
     #process_output_md = json_to_md(process_output.name)
-    with open(str(str(ctx.hermes_dir)+ "/process/"+ str(ctx.hermes_name + ".json")), 'r') as file:
+    with open(process_output, 'r') as file:
         data = file.read()
         file.close()
 
@@ -169,10 +169,10 @@ def curate(click_ctx: click.Context):
             in_loop -= 1
         new_lines.append(line + "\n")
     text = ''.join(new_lines)
-    with open("process_output_md", "w") as new_file:
+    with open(ctx.hermes_dir / 'curate' / (ctx.hermes_name + '.md'), "w") as new_file:
         new_file.write(text)
 
-    shutil.copy(new_file.name, ctx.hermes_dir / 'curate' / (ctx.hermes_name + '.md'))
+    #shutil.copy(new_file.name, ctx.hermes_dir / 'curate' / (ctx.hermes_name + '.md'))
 
     #shutil.copy(json_to_md(process_output), ctx.hermes_dir / 'curate_with_me' / (ctx.hermes_name + '.md'))
 
