@@ -148,8 +148,29 @@ def curate(click_ctx: click.Context):
     os.makedirs(ctx.hermes_dir / 'curate_with_me', exist_ok=True)
     shutil.copy(process_output, ctx.hermes_dir / 'curate_with_me' / (ctx.hermes_name + '.md'))
     shutil.copy(process_output, ctx.hermes_dir / 'curate' / (ctx.hermes_name + '.json'))
-    process_output_md = json_to_md(process_output.name)
-    shutil.copy(process_output_md, ctx.hermes_dir / 'curate' / (ctx.hermes_name + '.md'))
+    #process_output_md = json_to_md(process_output.name)
+    with open(process_output.name, 'r') as file:
+        data = file.read()
+        file.close()
+
+    in_loop = 0
+    lines = data.split("\n")
+    new_lines = []
+    for line in lines:
+        line = line.replace("{", "").replace("}", "\n").replace(",", "")
+        line = re.sub('"(@?\w*:?\w*)":', "- \g<1>:  ", line) if in_loop else re.sub('"(@?\w*:?\w*)":', "### \g<1> \n", line)
+        if re.search(r'\[', line) is not None:
+            line = line.replace("[", "")
+            in_loop += 1
+        if re.search(r'\]', line) is not None:
+            line = line.replace("]", "")
+            in_loop -= 1
+        new_lines.append(line + "\n")
+    text = ''.join(new_lines)
+    with open("process_output_md", "w") as new_file:
+        new_file.write(text)
+
+    shutil.copy(new_file, ctx.hermes_dir / 'curate' / (ctx.hermes_name + '.md'))
 
     #shutil.copy(json_to_md(process_output), ctx.hermes_dir / 'curate_with_me' / (ctx.hermes_name + '.md'))
 
