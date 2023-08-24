@@ -301,11 +301,12 @@ def json_to_md(file, ctx):
         line = line.replace("{", "").replace("}", "\n").replace(",", "")
         line = re.sub('"(@?\w*:?\w*)":', "- \g<1>:  ", line) if in_loop else re.sub('"(@?\w*:?\w*)":', "### \g<1> \n",
                                                                                     line)
-        key = re.search('"(@?\w*:?\w*)":', line).group(1)
-        try:
-            new_lines.append("Quelle"+tags.key.local_path)
-        except:
-            pass
+        if re.search('"(@?\w*:?\w*)":', line) is not None:
+            key = re.search('"(@?\w*:?\w*)":', line).group(1)
+            try:
+                new_lines.append("Quelle"+tags.key.local_path)
+            except:
+                pass
         if re.search(r'\[', line) is not None:
             line = line.replace("[", "")
             in_loop += 1
