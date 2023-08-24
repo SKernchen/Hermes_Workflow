@@ -149,7 +149,7 @@ def curate(click_ctx: click.Context):
     shutil.copy(process_output, ctx.hermes_dir / 'curate_with_me' / (ctx.hermes_name + '.md'))
     shutil.copy(process_output, ctx.hermes_dir / 'curate' / (ctx.hermes_name + '.json'))
 
-    text_md = json_to_md(process_output)
+    text_md = json_to_md(process_output, ctx)
     with open(ctx.hermes_dir / 'curate' / (ctx.hermes_name + '.md'), "w") as new_file:
         new_file.write(text_md)
 
@@ -284,14 +284,14 @@ def clean():
     ctx.purge_caches()
 
 
-def json_to_md(file):
+def json_to_md(file, ctx):
     if not file.is_file():
         click.echo(file + " is not a file")
         return
     with open(file, 'r') as file:
         data = file.read()
         file.close()
-
+    tags = ctx.hermes_dir / 'process' / ("tags.json")
     in_loop = 0
     lines = data.split("\n")
     new_lines = []
@@ -301,6 +301,11 @@ def json_to_md(file):
         line = line.replace("{", "").replace("}", "\n").replace(",", "")
         line = re.sub('"(@?\w*:?\w*)":', "- \g<1>:  ", line) if in_loop else re.sub('"(@?\w*:?\w*)":', "### \g<1> \n",
                                                                                     line)
+        key = re.search('"(@?\w*:?\w*)":', line).group(1)
+        try:
+            new_lines.append("Quelle"+tags.key.local_path)
+        except:
+            pass
         if re.search(r'\[', line) is not None:
             line = line.replace("[", "")
             in_loop += 1
