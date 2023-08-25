@@ -304,9 +304,10 @@ def json_to_md(file, ctx):
         if re.search('"(@?\w*:?\w*)":', line) is not None:
             key = re.search('"(@?\w*:?\w*)":', line).group(1)
             try:
-                new_lines.append("Quelle"+tags.key.local_path)
+                new_lines.append("Quelle"+tags[key]["local_path"])
             except:
                 pass
+
         if re.search(r'\[', line) is not None:
             line = line.replace("[", "")
             in_loop += 1
