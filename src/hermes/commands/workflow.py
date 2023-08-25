@@ -291,7 +291,7 @@ def json_to_md(file, ctx):
     with open(file, 'r') as file:
         data = file.read()
         file.close()
-    tags = ctx.hermes_dir / 'process' / ("tags.json")
+    tags = ctx.get_cache("process", "tags")
     in_loop = 0
     lines = data.split("\n")
     new_lines = []
