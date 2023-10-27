@@ -324,7 +324,7 @@ def json_to_md(file, ctx):
                 try:
                     new_lines.append("Quelle: "+ctx["tags"][key]["local_path"])
                 except KeyError:
-                    audit_log.info("nicht dabei : ",key)
+                    audit_log.info("nicht dabei : %s",key)
 
 
         line = re.sub('"(@?\w*:?\w*)":', "- \g<1>:  ", line) if in_loop else re.sub('"(@?\w*:?\w*)":', "### \g<1> \n",
