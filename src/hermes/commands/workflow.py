@@ -295,7 +295,11 @@ def json_to_md(file, ctx):
     _log = logging.getLogger('cli.process')
 
     audit_log = logging.getLogger('audit')
-    audit_log.info("## Taggis ",tags, type(tags))
+    data = tags.get_data()
+
+    data.get('author', [])
+    audit_log.info("## Taggis ", str(data.get('contributor', [])))
+
     in_loop = 0
     lines = data.split("\n")
     new_lines = []
