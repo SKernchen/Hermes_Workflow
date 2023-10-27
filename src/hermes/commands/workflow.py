@@ -291,7 +291,7 @@ def json_to_md(file, ctx):
     with open(file, 'r') as file:
         data = file.read()
         file.close()
-    tags = ctx.get_cache("process", "tags.json")
+    tags = ctx.get_cache("process", "tags")
 
     # Loading the data into the "codemeta" field is a temporary workaround used because
     # the CodeMetaContext does not provide an update_from method. Eventually we want the
