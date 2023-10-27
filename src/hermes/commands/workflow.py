@@ -291,12 +291,12 @@ def json_to_md(file, ctx):
     with open(file, 'r') as file:
         data = file.read()
         file.close()
-    tags = ctx.get_cache("process", "tags")
+    tags = ctx.get_cache("process", "tago")
 
     _log = logging.getLogger('cli.process')
 
     audit_log = logging.getLogger('audit')
-    ctx.load_cache()
+    ctx.get_data(tags)
     metadata = str(ctx.keys())
     audit_log.info(metadata)
     d = ctx.get_data()
