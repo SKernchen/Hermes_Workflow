@@ -309,11 +309,6 @@ def json_to_md(file, ctx):
 
     f = str(ctx["tags"]["contributor"])
     audit_log.info(f)
-    p = ctx.get('contributor',[])
-    audit_log.info(p)
-    da = ctx.get_data()
-    s = da.get('contributor')
-    audit_log.info(s)
 
     in_loop = 0
     lines = data.split("\n")
@@ -325,7 +320,7 @@ def json_to_md(file, ctx):
 
         if re.search('"(@?\w*:?\w*)":', line) is not None:
             key = re.search('"(@?\w*:?\w*)":', line).group(1)
-            #new_lines.append("Quelle: "+tags[key]["local_path"])
+            new_lines.append("Quelle: "+ctx["tags"][key]["local_path"])
 
 
         line = re.sub('"(@?\w*:?\w*)":', "- \g<1>:  ", line) if in_loop else re.sub('"(@?\w*:?\w*)":', "### \g<1> \n",
