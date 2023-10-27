@@ -296,11 +296,11 @@ def json_to_md(file, ctx):
     _log = logging.getLogger('cli.process')
 
     audit_log = logging.getLogger('audit')
-    metadata = ctx["process"]["tags"]
+    metadata = ctx["process"]
 
     d = ctx.get_data()
 
-    f = metadata["contributor"]
+    f = str(metadata.keys())
     audit_log.info(f)
     p = d.get('contributor',[])
     audit_log.info(p)
