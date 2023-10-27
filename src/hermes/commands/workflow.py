@@ -291,21 +291,27 @@ def json_to_md(file, ctx):
     with open(file, 'r') as file:
         data = file.read()
         file.close()
-    tags = ctx.get_cache("process", "tago")
+    tags = ctx.get_cache("process", "tags.json")
+
+    # Loading the data into the "codemeta" field is a temporary workaround used because
+    # the CodeMetaContext does not provide an update_from method. Eventually we want the
+    # the context to contain `{**data}` rather than `{"codemeta": data}`. Then, for
+    # additional data, the hermes namespace should be used.
+    tags_path = ContextPath("tags")
+    with open(tags) as taggis:
+        ctx.update(tags_path, json.load(taggis))
 
     _log = logging.getLogger('cli.process')
 
     audit_log = logging.getLogger('audit')
-    ctx.get_data(tags)
     metadata = str(ctx.keys())
     audit_log.info(metadata)
-    d = ctx.get_data()
 
-    f = str(d.keys())
+    f = str(ctx["tags"]["contributor"])
     audit_log.info(f)
-    p = d.get('contributor',[])
+    p = ctx.get('contributor',[])
     audit_log.info(p)
-    da = ctx.get_data(path=tags)
+    da = ctx.get_data()
     s = da.get('contributor')
     audit_log.info(s)
 
