@@ -292,6 +292,7 @@ def json_to_md(file, ctx):
         data = file.read()
         file.close()
     tags = ctx.get_cache("process", "tags")
+    click.echo(tags, type(tags))
     in_loop = 0
     lines = data.split("\n")
     new_lines = []
@@ -302,7 +303,7 @@ def json_to_md(file, ctx):
 
         if re.search('"(@?\w*:?\w*)":', line) is not None:
             key = re.search('"(@?\w*:?\w*)":', line).group(1)
-            new_lines.append("Quelle: "+tags[key]["local_path"])
+            #new_lines.append("Quelle: "+tags[key]["local_path"])
 
 
         line = re.sub('"(@?\w*:?\w*)":', "- \g<1>:  ", line) if in_loop else re.sub('"(@?\w*:?\w*)":', "### \g<1> \n",
