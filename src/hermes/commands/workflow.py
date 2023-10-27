@@ -323,8 +323,8 @@ def json_to_md(file, ctx):
             if in_loop == 0:
                 try:
                     source = ctx["tags"][key]["local_path"]
-                    line = re.sub(r'"(@?\w*:?\w*)":', r"- \[\g<1>\](## {}\):  ".format(source), line)\
-                        if in_loop else re.sub('"(@?\w*:?\w*)":', r"### \[\g<1>\]\(## {}\) \n".format(source), line)
+                    line = re.sub(r'"(@?\w*:?\w*)":', r"- [\g<1>](## {}):  ".format(source), line)\
+                        if in_loop else re.sub('"(@?\w*:?\w*)":', r"### [\g<1>](## {}) \n".format(source), line)
                 except KeyError:
                     audit_log.info("nicht dabei : %s",key)
                     line = re.sub('"(@?\w*:?\w*)":', "- \g<1>:  ", line) if in_loop else re.sub('"(@?\w*:?\w*)":',
