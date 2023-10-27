@@ -300,7 +300,7 @@ def json_to_md(file, ctx):
     audit_log.info(metadata)
     d = ctx.get_data()
 
-    f = str(ctx["codemeta"]["contributor"])
+    f = str(d.keys())
     audit_log.info(f)
     p = d.get('contributor',[])
     audit_log.info(p)
