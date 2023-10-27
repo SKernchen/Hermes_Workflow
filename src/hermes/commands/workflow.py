@@ -298,8 +298,13 @@ def json_to_md(file, ctx):
     audit_log = logging.getLogger('audit')
     d = ctx.get_data()
 
-    f = d.get('author', [tags])
+    f = d.get('contributor', [tags])
     audit_log.info(f)
+    p = d.get('contributor',[])
+    audit_log.info(p)
+    da = ctx.get_data(path=tags)
+    s = da.get('contributor')
+    audit_log.info(s)
 
     in_loop = 0
     lines = data.split("\n")
