@@ -320,7 +320,10 @@ def json_to_md(file, ctx):
 
         if re.search('"(@?\w*:?\w*)":', line) is not None:
             key = re.search('"(@?\w*:?\w*)":', line).group(1)
-            new_lines.append("Quelle: "+ctx["tags"][key]["local_path"])
+            try:
+                new_lines.append("Quelle: "+ctx["tags"][key]["local_path"])
+            except KeyError:
+                audit_log.info(ctx["tags"][key])
 
 
         line = re.sub('"(@?\w*:?\w*)":', "- \g<1>:  ", line) if in_loop else re.sub('"(@?\w*:?\w*)":', "### \g<1> \n",
