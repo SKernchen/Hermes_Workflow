@@ -318,6 +318,13 @@ def json_to_md(file, ctx):
     for line in lines:
         line = line.replace("{", "").replace("}", "\n").replace(",", "")
 
+
+        if re.search(r'\[', line) is not None:
+            line = line.replace("[", "")
+            in_loop += 1
+        if re.search(r'\]', line) is not None:
+            line = line.replace("]", "")
+            in_loop -= 1
         if re.search('"(@?\w*:?\w*)":', line) is not None:
             key = re.search('"(@?\w*:?\w*)":', line).group(1)
             if in_loop == 0:
@@ -330,12 +337,6 @@ def json_to_md(file, ctx):
                     line = re.sub('"(@?\w*:?\w*)":', "- \g<1>:  ", line) if in_loop else re.sub('"(@?\w*:?\w*)":',
                                                                                                 "### \g<1> \n", line)
 
-        if re.search(r'\[', line) is not None:
-            line = line.replace("[", "")
-            in_loop += 1
-        if re.search(r'\]', line) is not None:
-            line = line.replace("]", "")
-            in_loop -= 1
         new_lines.append(line + "\n")
     text = ''.join(new_lines)
     return text
