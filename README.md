@@ -12,7 +12,7 @@ SPDX-FileContributor: Oliver Bertuch
 
 ![HERMES Key Visual](docs/source/_static/img/header.png)
 
-# Supersophie
+# hermes
 
 Implementation of the HERMES workflow. For more extensive documentation, see the [HERMES workflow documentation](https://docs.software-metadata.pub/en/latest).
 
@@ -24,7 +24,7 @@ Implementation of the HERMES workflow. For more extensive documentation, see the
 
 ## Installation and Usage
 
-`hermes`' primary use case is to [use it in a continuous integration environment](https://docs.software-metadata.pub/en/latest/tutorials/001-prepare-your-project.html).
+`hermes`' primary use case is to [use it in a continuous integration environment](https://docs.software-metadata.pub/en/latest/tutorials/automated-publication-with-ci.html).
 
 In case you still want to install on your machine, you can (for example) use `pip`:
 

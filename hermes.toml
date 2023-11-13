@@ -1,22 +1,22 @@
+# SPDX-FileCopyrightText: 2023 German Aerospace Center (DLR)
+#
+# SPDX-License-Identifier: CC0-1.0
+
 [harvest]
-from = [ "cff", "git",]
-
-[deposit]
-mapping = "invenio"
-target = "invenio"
-
-[postprocess]
-execute = [ "config_record_id",]
+from = [ "cff", "git" ]
 
 [harvest.cff]
 validate = false
 
-[deposit.invenio]
+[deposit]
+target = "invenio_rdm"
+
+[deposit.invenio_rdm]
 site_url = "https://sandbox.zenodo.org"
-communities = [ "zenodo",]
+communities = ["zenodo"]
 access_right = "open"
 
-[deposit.invenio.api_paths]
+[deposit.invenio_rdm.api_paths]
 depositions = "api/deposit/depositions"
-licenses = "api/licenses"
+licenses = "api/vocabularies/licenses"
 communities = "api/communities"
