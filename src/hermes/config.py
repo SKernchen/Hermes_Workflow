@@ -8,6 +8,7 @@ import logging
 import pathlib
 import sys
 import os
+import json
 
 import toml
 
@@ -84,13 +85,10 @@ def configure(config_path: pathlib.Path, working_path: pathlib.Path):
     try:
         with open(config_path, 'r') as config_file:
             hermes_config = toml.load(config_file)
-            settings_str = str(hermes_config).replace("'",'"')
+            settings_str = json.dumps(hermes_config)
             os.environ['hermes__hermes'] = settings_str
-            try:
-                Settings()
-                print(Settings().model_dump())
-            except ValidationError as e:
-                print(e)
+            os.echo(Settings().model_dump())
+
 
             _config['hermes'] = hermes_config
             _config['logging'] = hermes_config.get('logging', _config['logging'])
