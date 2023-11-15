@@ -82,7 +82,7 @@ def configure(config_path: pathlib.Path, working_path: pathlib.Path):
     try:
         with open(config_path, 'r') as config_file:
             hermes_config = toml.load(config_file)
-            os.environ['hermes'] = hermes_config
+            os.environ['hermes'] = '{}'.format(hermes_config)
             print(Settings().model_dump())
             _config['hermes'] = hermes_config
             _config['logging'] = hermes_config.get('logging', _config['logging'])
