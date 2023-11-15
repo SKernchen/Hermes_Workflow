@@ -20,6 +20,7 @@ class DepositTargetSettings(BaseModel):
 
 class DepositSettings(BaseModel):
     target: str = 'invenio_rdm'
+    invenio: DepositTargetSettings = DepositTargetSettings()
     invenio_rdm: DepositTargetSettings = DepositTargetSettings()
 
 
