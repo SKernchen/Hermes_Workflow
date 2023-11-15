@@ -85,7 +85,7 @@ def configure(config_path: pathlib.Path, working_path: pathlib.Path):
         with open(config_path, 'r') as config_file:
             hermes_config = toml.load(config_file)
             settings_str = str(hermes_config).replace("'",'"')
-            os.environ['hermes'] = settings_str
+            os.environ['hermes__hermes'] = settings_str
             try:
                 Settings()
                 print(Settings().model_dump())

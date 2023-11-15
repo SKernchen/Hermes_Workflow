@@ -6,6 +6,7 @@ from pydantic.fields import FieldInfo
 
 from pydantic_settings import (
     BaseSettings,
+    SettingsConfigDict,
     EnvSettingsSource,
     PydanticBaseSettingsSource,
 )
@@ -39,3 +40,4 @@ class HermesSettings(BaseModel):
 
 class Settings(BaseSettings):
     hermes: HermesSettings = HermesSettings()
+    model_config = SettingsConfigDict(env_prefix='hermes_')
