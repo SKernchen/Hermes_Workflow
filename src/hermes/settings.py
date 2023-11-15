@@ -17,7 +17,7 @@ class HarvestCff(BaseModel):
 
 
 class HarvestSettings(BaseModel):
-    from_: list[str] = [ "cff", "git" ]
+    from_: list[str]
     cff: HarvestCff = HarvestCff()
 
 
