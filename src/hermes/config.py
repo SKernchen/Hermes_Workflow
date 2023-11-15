@@ -7,10 +7,12 @@
 import logging
 import pathlib
 import sys
+import os
 
 import toml
 
 from hermes.model.context import HermesContext
+from hermes.settings import Settings
 
 # This is the default logging configuration, required to see log output at all.
 #  - Maybe it could possibly somehow be a somewhat good idea to move this into an own module ... later perhaps
@@ -80,6 +82,8 @@ def configure(config_path: pathlib.Path, working_path: pathlib.Path):
     try:
         with open(config_path, 'r') as config_file:
             hermes_config = toml.load(config_file)
+            os.environ['hermes'] = hermes_config
+            print(Settings().model_dump())
             _config['hermes'] = hermes_config
             _config['logging'] = hermes_config.get('logging', _config['logging'])
 
