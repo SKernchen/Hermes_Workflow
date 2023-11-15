@@ -2,7 +2,7 @@ import json
 from typing import Any, List, Tuple, Type
 
 from pydantic import BaseModel
-from pydantic.fields import FieldInfo
+from pydantic.fields import FieldInfo, Field
 
 from pydantic_settings import (
     BaseSettings,
@@ -17,7 +17,7 @@ class HarvestCff(BaseModel):
 
 
 class HarvestSettings(BaseModel):
-    from_: list[str]
+    from_: list[str] = Field(default=["git", "cff"])
     cff: HarvestCff = HarvestCff()
 
 

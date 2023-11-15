@@ -16,6 +16,7 @@ from hermes.model.context import HermesContext
 from hermes.settings import Settings
 from pydantic import ValidationError
 from pydantic import Field
+from pydantic.tools import parse_obj_as
 
 # This is the default logging configuration, required to see log output at all.
 #  - Maybe it could possibly somehow be a somewhat good idea to move this into an own module ... later perhaps
@@ -86,9 +87,12 @@ def configure(config_path: pathlib.Path, working_path: pathlib.Path):
         with open(config_path, 'r') as config_file:
             hermes_config = toml.load(config_file)
             settings_str = json.dumps(hermes_config)
-            os.environ['hermes__hermes'] = settings_str
-            cmd = "echo '{}' ".format(Settings().model_dump())
-            os.system(cmd)
+            obj = parse_obj_as(Settings, hermes_config)
+            print(f"OBJECT: {obj}")
+            #_logconf.error(f"VALIDATION: {validation}")
+
+            #cmd = "echo 'VALIDATION {}' ".format(validation)
+            #os.system(cmd)
 
 
             _config['hermes'] = hermes_config
