@@ -7,16 +7,13 @@
 import logging
 import pathlib
 import sys
-import os
-import json
 
 import toml
 
 from hermes.model.context import HermesContext
-from hermes.settings import Settings
+from hermes.settings import HermesSettings
 from pydantic import ValidationError
-from pydantic import Field
-from pydantic.tools import parse_obj_as
+
 
 # This is the default logging configuration, required to see log output at all.
 #  - Maybe it could possibly somehow be a somewhat good idea to move this into an own module ... later perhaps
@@ -83,26 +80,22 @@ def configure(config_path: pathlib.Path, working_path: pathlib.Path):
         working_path / HermesContext.hermes_cache_name / "audit.log"
 
     # Load configuration if not present
-    try:
-        with open(config_path, 'r') as config_file:
+#    try:
+    '''with open(config_path, 'r') as config_file:
             hermes_config = toml.load(config_file)
-            settings_str = json.dumps(hermes_config)
-            obj = parse_obj_as(Settings, hermes_config)
-            print(f"OBJECT: {obj}")
-            #_logconf.error(f"VALIDATION: {validation}")
+            HermesSettings().model_validate(hermes_config)'''
+    settings = HermesSettings()
 
-            #cmd = "echo 'VALIDATION {}' ".format(validation)
-            #os.system(cmd)
-
-
-            _config['hermes'] = hermes_config
-            _config['logging'] = hermes_config.get('logging', _config['logging'])
-
+    _config['hermes'] = settings
+    #_config['logging'] = settings.get('logging', _config['logging'])
+    ''' except ValidationError as e:
+        print(e)
+        sys.exit(1)
     except FileNotFoundError:
         if config_path.name != 'hermes.toml':
             # An explicit filename (different from default) was given, so the file should be available...
             print(f"Configuration not present at {config_path}.", file=sys.stderr)
-            sys.exit(1)
+            sys.exit(1)'''
 
 
 def get(name: str) -> dict:
